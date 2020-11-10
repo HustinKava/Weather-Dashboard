@@ -65,14 +65,47 @@ let getWeather = (city) => {
             fetch('https://api.openweathermap.org/data/2.5/uvi?lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey)
                 .then(responseTwo => responseTwo.json())
                 .then(dataTwo => {
-                    // console.log(dataTwo)
+                    console.log(dataTwo)
 
-                    //Creating a span tag that will append onto the uv index html element
-                    let uvIndex = document.createElement('span');
-                    uvIndex.setAttribute('class', 'badge badge-danger');
-                    uvIndex.innerHTML = dataTwo['value'];
-                    weatherUvIndex.innerHTML = 'UV Index: ';
-                    weatherUvIndex.append(uvIndex);
+                    //Removing the class with jquery each time 
+                    $('.badge').removeClass();
+
+                    //Storing the uv data value in a variable
+                    let uvIndexValue = dataTwo['value'];
+                    // console.log(uvIndexValue)
+
+                    //Setting the uv badge color depending on value
+                    if (uvIndexValue < 2) {
+                        let uvIndex = document.createElement('span');
+                        uvIndex.setAttribute('class', 'badge low');
+                        uvIndex.innerHTML = uvIndexValue;
+                        weatherUvIndex.innerHTML = 'UV Index: ';
+                        weatherUvIndex.append(uvIndex);
+                    } else if (uvIndexValue > 2 && uvIndexValue < 5) {
+                        uvIndex = document.createElement('span');
+                        uvIndex.setAttribute('class', 'badge moderate');
+                        uvIndex.innerHTML = uvIndexValue;
+                        weatherUvIndex.innerHTML = 'UV Index: ';
+                        weatherUvIndex.append(uvIndex);
+                    } else if (uvIndexValue >= 6 && uvIndexValue <=7) {
+                        uvIndex = document.createElement('span');
+                        uvIndex.setAttribute('class', 'badge high');
+                        uvIndex.innerHTML = uvIndexValue;
+                        weatherUvIndex.innerHTML = 'UV Index: ';
+                        weatherUvIndex.append(uvIndex);
+                    } else if (uvIndexValue >= 8 && uvIndexValue <=15) {
+                        uvIndex = document.createElement('span');
+                        uvIndex.setAttribute('class', 'badge very-high');
+                        uvIndex.innerHTML = uvIndexValue;
+                        weatherUvIndex.innerHTML = 'UV Index: ';
+                        weatherUvIndex.append(uvIndex);
+                    } else {
+                        uvIndex = document.createElement('span');
+                        uvIndex.setAttribute('class', 'badge extreme');
+                        uvIndex.innerHTML = uvIndexValue;
+                        weatherUvIndex.innerHTML = 'UV Index: ';
+                        weatherUvIndex.append(uvIndex);
+                    };
 
                     //Creating a fetch for the 5 day forecast
                     fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey)
@@ -130,7 +163,7 @@ let getWeather = (city) => {
 
         //If the search value is not equal to a valid city name, this error will be alerted
         .catch(err => alert('Wrong city name!'))
-}
+};
 
 //Event listener for when the search button is pressed
 searchButton.addEventListener('click', function () {
@@ -149,10 +182,10 @@ searchButton.addEventListener('click', function () {
 
     //When the search button is clicked, the get weather function is called and passes the variable search text which is storing the name of the city I searched for
     getWeather(searchText);
-    
+
     //Then the name of the city we searched for gets pushed into the search history array that I created as a global empty array variable at the top
     searchHistory.push(searchText);
-    
+
     //Then I set the local storage with the key name as 'City' and I use the json.stringy method to convert the search history value into a string that is in an array
     localStorage.setItem('City', JSON.stringify(searchHistory));
 
@@ -168,7 +201,7 @@ let renderSearchHistory = () => {
 
     //This for loop will create the HTML elements each time the search button is clicked
     for (let i = 0; i < searchHistory.length; i++) {
-        
+
         //Created the html list items 
         const historyItem = document.createElement('input');
         historyItem.setAttribute('type', 'text');
@@ -183,7 +216,7 @@ let renderSearchHistory = () => {
 
             //Clear the 5-Day forecast element each time the search button is clicked
             $('.forecast').empty();
-            
+
             //The get weather function is called here and passes the event target value which would equal the city name that has been searched
             getWeather(e.target.value);
             // console.log(e.target.value);
