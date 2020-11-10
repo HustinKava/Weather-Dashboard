@@ -9,61 +9,79 @@ let weatherHumidity = document.querySelector('.weather-humidity');
 let weatherWindSpeed = document.querySelector('.weather-wind-speed');
 let weatherUvIndex = document.querySelector('.weather-uv-index');
 let fiveDayForecast = document.querySelector('.forecast');
-//Global variable to store the search input and api key
+
+//Global variable to store the search input, api key and the search history
 let searchText;
 let apiKey = '32e2f43ba93ca7e7987d0e123e9c252a';
 let searchHistory = [];
+
+//Converts the local storage data to a javascript object that gets stored in the search history variable
 searchHistory = JSON.parse(localStorage.getItem('City')) || [];
 
-let getWeather = () => {
+//Wrapped the nested fetches in a function that passes the parameter city (it can be named anything)
+let getWeather = (city) => {
+
+
     //Making a promise to get the api data from url depending on what the user input is within the search field
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + searchbarInput.value + '&units=imperial&appid=' + apiKey)
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&appid=' + apiKey)
+
         //Then once we have the response, it gets converted into javascript object notation
         .then(response => response.json())
+
         //Then with the data from the response I console log the data
         .then(data => {
-            console.log(data)
+            // console.log(data)
+
             //Storing the data we recieved into variables by targeting the index value
             let pictureValue = data['weather'][0]['icon']
             let nameValue = data['name'];
             let temperatureValue = 'Temperature: ' + data['main']['temp'] + '°F';
             let humidityValue = 'Humidity: ' + data['main']['humidity'] + '%';
             let windspeedValue = 'Wind Speed: ' + data['wind']['speed'] + ' MPH';
+
             //Storing the lattitude and longitude into variables so we can get the uv index
             let lattitude = data['coord']['lat'];
             // console.log(lattitude);
             let longitude = data['coord']['lon'];
             // console.log(longitude);
+
             //Creaing a new image html element that I will append on to the city name
             let weatherPicture = document.createElement('img');
             weatherPicture.setAttribute("src", "https://openweathermap.org/img/wn/" + pictureValue + "@2x.png");
             weatherPicture.setAttribute("alt", data['weather'][0]['description']);
+
             //Setting the inner html elements with the data I stored into variables
             cityName.innerHTML = nameValue + ' (' + (moment().format('M/D/YYYY')) + ')';
+
             //Appending the weather icon on to the end of the city name
             cityName.append(weatherPicture);
             weatherTemperature.innerHTML = temperatureValue;
             weatherHumidity.innerHTML = humidityValue;
             weatherWindSpeed.innerHTML = windspeedValue;
+
             //Creating a nested fetch to get the uv index using the data we stored in the variables lattitude and longitude
             fetch('http://api.openweathermap.org/data/2.5/uvi?lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey)
                 .then(responseTwo => responseTwo.json())
                 .then(dataTwo => {
-                    console.log(dataTwo)
+                    // console.log(dataTwo)
+
                     //Creating a span tag that will append onto the uv index html element
                     let uvIndex = document.createElement('span');
                     uvIndex.setAttribute('class', 'badge badge-danger');
                     uvIndex.innerHTML = dataTwo['value'];
                     weatherUvIndex.innerHTML = 'UV Index: ';
                     weatherUvIndex.append(uvIndex);
+
                     //Creating a fetch for the 5 day forecast
-                    fetch('http://api.openweathermap.org/data/2.5/forecast?q=' + searchbarInput.value + '&units=imperial&appid=' + apiKey)
+                    fetch('http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey)
                         .then(responseThree => responseThree.json())
                         .then(dataThree => {
-                            console.log(dataThree)
+                            // console.log(dataThree)
+
                             //Creating a variable to hold the list contents
                             let holdContent = dataThree['list'];
                             // console.log(holdContent);
+
                             //Created a for loop that iterates by 8 through an array with the length of 40
                             for (let i = 0; i < holdContent.length; i += 8) {
                                 // console.log(holdContent[i])
@@ -75,6 +93,7 @@ let getWeather = () => {
                                 // console.log(forecastMonth)                        
                                 let forecastYear = forecastDate.getFullYear();
                                 // console.log(forecastYear)
+
                                 //Create a div tag that appends to the html element with the class name of forecast
                                 let divElement = document.createElement('div');
                                 divElement.setAttribute('class', 'col bg-primary text-white ml-3 mb-3 rounded');
@@ -85,17 +104,20 @@ let getWeather = () => {
                                 divElement.append(htmlForecastDate);
                                 let forecastPicture = holdContent[i]['weather'][0]['icon'];
                                 // console.log(forecastPicture);
+
                                 const htmlForecastWeather = document.createElement("img");
                                 htmlForecastWeather.setAttribute("src", "https://openweathermap.org/img/wn/" + forecastPicture + ".png");
                                 htmlForecastWeather.setAttribute("alt", forecastPicture);
                                 divElement.append(htmlForecastWeather);
                                 let forecastTemp = holdContent[i]['main']['temp'];
                                 // console.log(forecastTemp);
+
                                 const htmlForecastTemp = document.createElement('p');
                                 htmlForecastTemp.innerHTML = 'Temp: ' + forecastTemp + '°F';
                                 divElement.append(htmlForecastTemp);
                                 let forecastHumidity = holdContent[i]['main']['humidity'];
                                 // console.log(forecastHumidity);
+
                                 const htmlForecastHumidity = document.createElement("p");
                                 htmlForecastHumidity.innerHTML = "Humidity: " + forecastHumidity + '%';
                                 divElement.append(htmlForecastHumidity);
@@ -103,6 +125,7 @@ let getWeather = () => {
                         })
                 })
         })
+
         //If the search value is not equal to a valid city name, this error will be alerted
         .catch(err => alert('Wrong city name!'))
 }
@@ -116,47 +139,56 @@ searchButton.addEventListener('click', function () {
     //The input value submitted gets stored into the searchText variable
     searchText = searchbarInput.value;
     // console.log(searchText);
+
+    //Stops function in its tracks if there is nothing entered in the searchbar
+    if (!searchText) {
+        return;
+    }
+
+    //When the search button is clicked, the get weather function is called and passes the variable search text which is storing the name of the city I searched for
     getWeather(searchText);
     
-
+    //Then the name of the city we searched for gets pushed into the search history array that I created as a global empty array variable at the top
     searchHistory.push(searchText);
 
+    //Then I set the local storage with the key name as 'City' and I use the json.stringy method to convert the search history value into a string that is in an array
     localStorage.setItem('City', JSON.stringify(searchHistory));
 
-   
-    // console.log(searchHistory);
-
-    
+    //Calling the render search history function because I want the history to be generated as soon as the search button is clicked
     renderSearchHistory();
 });
 
 //Created a function that will render the search history under the searchbar
 let renderSearchHistory = () => {
 
+    //Empty out the history content html every time the function is run,. if I do not do this, the function will keep printing everything that is stored in local storage
+    historyContent.innerHTML = '';
+
     //This for loop will create the HTML elements each time the search button is clicked
     for (let i = 0; i < searchHistory.length; i++) {
-
-
+        
+        //Created the html list items 
         historyItem = document.createElement('input');
         historyItem.setAttribute('type', 'text');
         historyItem.setAttribute('readonly', true);
         historyItem.setAttribute('class', 'history-form form-control d-block bg-white');
+
+        //Each time the function is run, the value will be the newest value that is stored in the search history array
         historyItem.setAttribute('value', searchHistory[i]);
 
-        
-
-        
-        // searchHistory = [];
-
-        historyItem.addEventListener('click', function () {
+        //Then I create an onclick evenet listener that passes an event in the function parameter
+        historyItem.addEventListener('click', function (e) {
 
             //Clear the 5-Day forecast element each time the search button is clicked
             $('.forecast').empty();
-
-            getWeather(historyItem.value);
+            
+            //The get weather function is called here and passes the event target value which would equal the city name that has been searched
+            getWeather(e.target.value);
+            // console.log(e.target.value);
 
         });
 
+        //Appending the new html elements that were created above so they are inserted into the form tags we created in index.html
         historyContent.append(historyItem);
 
 
@@ -164,4 +196,14 @@ let renderSearchHistory = () => {
     }
 }
 
+//Calling this function makes the values persist when the page is reloaded
 renderSearchHistory();
+
+/*To do list:
+
+If user enters an invalid city, then a search history element should not be created
+If user is using a celphone, then the page should scale down properly. The searchbar is not scaling properly
+The content is exceeding the screen size
+Implement time zones to display correct date for what city user searched for
+Create a clear history/Local storage button
+*/
