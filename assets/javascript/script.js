@@ -16,6 +16,7 @@ let apiKey = '32e2f43ba93ca7e7987d0e123e9c252a';
 let searchHistory = [];
 
 //Converts the local storage data to a javascript object that gets stored in the search history variable
+//If there is nothing to grab from local storage set history to an empty array so it doesn't get set as undefined
 searchHistory = JSON.parse(localStorage.getItem('City')) || [];
 
 //Wrapped the nested fetches in a function that passes the parameter city (it can be named anything)
@@ -96,7 +97,7 @@ let getWeather = (city) => {
 
                                 //Create a div tag that appends to the html element with the class name of forecast
                                 let divElement = document.createElement('div');
-                                divElement.setAttribute('class', 'col bg-primary text-white ml-3 mb-3 rounded');
+                                divElement.setAttribute('class', 'col bg-primary text-white mx-3 mb-3 rounded');
                                 fiveDayForecast.append(divElement);
                                 let htmlForecastDate = document.createElement("p");
                                 htmlForecastDate.setAttribute("class", "mt-3 mb-0 forecast-date");
@@ -150,7 +151,7 @@ searchButton.addEventListener('click', function () {
     
     //Then the name of the city we searched for gets pushed into the search history array that I created as a global empty array variable at the top
     searchHistory.push(searchText);
-
+    
     //Then I set the local storage with the key name as 'City' and I use the json.stringy method to convert the search history value into a string that is in an array
     localStorage.setItem('City', JSON.stringify(searchHistory));
 
@@ -168,7 +169,7 @@ let renderSearchHistory = () => {
     for (let i = 0; i < searchHistory.length; i++) {
         
         //Created the html list items 
-        historyItem = document.createElement('input');
+        const historyItem = document.createElement('input');
         historyItem.setAttribute('type', 'text');
         historyItem.setAttribute('readonly', true);
         historyItem.setAttribute('class', 'history-form form-control d-block bg-white');
