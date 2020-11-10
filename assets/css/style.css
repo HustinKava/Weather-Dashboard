@@ -20,18 +20,14 @@
 /* Styling for search bar card */
 .card-content {
     background-color: #f8f9fa;
-    padding: 20px 20px 20px 20px;
+    padding: 5px 5px 5px 5px;
     border: none;
     border-radius: 0%;
 }
 
 .searchbar-content {
     margin-left: -20px;
-    width: 100%;
-}
-
-input[type="text"] {
-    width: 200px;
+    width: 75%;
 }
 
 /* Creating a border for the city display information */
@@ -46,8 +42,28 @@ input[type="text"] {
     font-weight: 600;
 }
 
-/* Styling for the history content */
+/* Styling for the history content */ 
 .history-form {
     cursor: pointer;
     margin-left: -20px;
+}
+
+@media screen and (max-width: 480px) {
+    .searchbar-content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .history-form {
+        margin-left: 0%;
+    }
+
+    h4 {
+        text-align: center;
+    }   
+    
+    .mobile-sizing {
+        /* column-gap: 1px; */
+    }
+    
 }
