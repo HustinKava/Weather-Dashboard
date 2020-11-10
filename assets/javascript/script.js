@@ -202,8 +202,13 @@ renderSearchHistory();
 /*To do list:
 
 If user enters an invalid city, then a search history element should not be created
-If user is using a celphone, then the page should scale down properly. The searchbar is not scaling properly
-The content is exceeding the screen size
 Implement time zones to display correct date for what city user searched for
 Create a clear history/Local storage button
+
+When page view port problems when shrink page 
+Search button does not stay attached to search area
+history content does not scale down within the card element
+The content is exceeding the screen size
+
+Live page on github is not working
 */
