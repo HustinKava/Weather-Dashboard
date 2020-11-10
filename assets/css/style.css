@@ -48,7 +48,13 @@
     margin-left: -20px;
 }
 
-@media screen and (max-width: 480px) {
+/* Clear button styling */
+.clear-button {
+    margin-left: -20px;
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 500px) {
     .searchbar-content {
         width: 100%;
         margin-left: 0;
@@ -60,5 +66,9 @@
 
     h4 {
         text-align: center;
-    }       
+    } 
+    
+    .clear-button {
+        margin-left: 0;
+    }
 }
