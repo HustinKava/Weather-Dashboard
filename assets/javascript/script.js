@@ -9,6 +9,7 @@ let weatherHumidity = document.querySelector('.weather-humidity');
 let weatherWindSpeed = document.querySelector('.weather-wind-speed');
 let weatherUvIndex = document.querySelector('.weather-uv-index');
 let fiveDayForecast = document.querySelector('.forecast');
+let clearButton = document.querySelector('.clear-button');
 
 //Global variable to store the search input, api key and the search history
 let searchText;
@@ -197,6 +198,13 @@ let renderSearchHistory = () => {
     }
 }
 
+//Created a click function that will clear the search history elements, local storage and set the search history to an empty array
+clearButton.addEventListener('click', function () {
+    searchHistory = [];
+    renderSearchHistory()
+    localStorage.clear()
+});
+
 //Calling this function makes the values persist when the page is reloaded
 renderSearchHistory();
 
@@ -204,9 +212,5 @@ renderSearchHistory();
 
 If user enters an invalid city, then a search history element should not be created
 Implement time zones to display correct date for what city user searched for
-Create a clear history/Local storage button
 
-The content is exceeding the screen size
-
-Live page on github is not working
 */
