@@ -54,6 +54,37 @@
     margin-top: 15px;
 }
 
+/* UV Styling */
+.badge {
+    padding: 10px 10px 10px 10px;
+}
+
+.low {
+    background-color:#3EA72D;
+    color: #fff;
+}
+
+.moderate {
+    background-color: #FFF300;
+    color: #fff;
+}
+
+.high {
+    background-color: #F18B00;
+    color: #fff;
+}
+
+.very-high {
+    background-color: #E53210;
+    color: #fff;
+}
+
+.extreme {
+    background-color: #B567A4;
+    color: #fff;
+}
+
+/* Styling for when the screen is below 500px */
 @media screen and (max-width: 500px) {
     .searchbar-content {
         width: 100%;
