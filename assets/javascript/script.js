@@ -61,7 +61,7 @@ let getWeather = (city) => {
             weatherWindSpeed.innerHTML = windspeedValue;
 
             //Creating a nested fetch to get the uv index using the data we stored in the variables lattitude and longitude
-            fetch('http://api.openweathermap.org/data/2.5/uvi?lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey)
+            fetch('https://api.openweathermap.org/data/2.5/uvi?lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey)
                 .then(responseTwo => responseTwo.json())
                 .then(dataTwo => {
                     // console.log(dataTwo)
@@ -74,7 +74,7 @@ let getWeather = (city) => {
                     weatherUvIndex.append(uvIndex);
 
                     //Creating a fetch for the 5 day forecast
-                    fetch('http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey)
+                    fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey)
                         .then(responseThree => responseThree.json())
                         .then(dataThree => {
                             // console.log(dataThree)
