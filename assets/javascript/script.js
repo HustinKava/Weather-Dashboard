@@ -65,7 +65,7 @@ let getWeather = (city) => {
             fetch('https://api.openweathermap.org/data/2.5/uvi?lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey)
                 .then(responseTwo => responseTwo.json())
                 .then(dataTwo => {
-                    console.log(dataTwo)
+                    // console.log(dataTwo)
 
                     //Removing the class with jquery each time 
                     $('.badge').removeClass();
@@ -240,10 +240,3 @@ clearButton.addEventListener('click', function () {
 
 //Calling this function makes the values persist when the page is reloaded
 renderSearchHistory();
-
-/*To do list:
-
-If user enters an invalid city, then a search history element should not be created
-Implement time zones to display correct date for what city user searched for
-
-*/
