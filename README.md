@@ -8,6 +8,10 @@
 
 <p>For this homework assignment I was tasked with creating a Weather Dashboard application! The web application allows a user to enter any city in the world and view the forecast for the current date, as well as the forecast for the next 5 days.</p>
 
+<h2>Technologies Used</h2>
+
+<p>For this assignment I used HTML, CSS, JavaScript, FontAwesome, Bootstrap, Moment.js, JQuery and the Open Weather Map Api</p>
+
 <h2>How it works</h2>
 
 <p>The user interface is very simple to use. User simply inputs the city they want the weather information on within the search bar and click the search button.
@@ -26,8 +30,14 @@ At the same time the user submits a search, the history will be stored to local 
 
 <h2>Screenshot</h2>
 
+![](/assets/images/Screenshot2.PNG)
+
 ![](/assets/images/Screenshot.PNG)
 
 <p>
 To view this web application please click <a href="https://hustinkava.github.io/Weather-Dashboard/" rel="nofollow">here</a>
+</p>
+
+<p>
+Click <a href="https://www.linkedin.com/in/hustin-kava" rel="nofollow">here</a> to connect with me on LinkedIn.
 </p>
